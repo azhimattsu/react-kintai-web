@@ -1,12 +1,13 @@
 import "./styles.css";
 import { Login } from "./component/pages/Login";
-import { Header } from "./component/organisms/layouts/Header";
+import { DefaultLayout } from "./component/templetes/DefaultLayout";
 
 export default function App() {
   return (
     <div className="App">
-      <Header />
-      <Login />
+      <DefaultLayout>
+        <Login />
+      </DefaultLayout>
     </div>
   );
 }
