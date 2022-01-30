@@ -1,4 +1,4 @@
-import { memo, VFC } from "react";
+import { ChangeEvent, memo, useState, VFC } from "react";
 import styled from "styled-components";
 import { PunchButton } from "../atoms/button/PunchButton";
 import { Clock } from "../atoms/clock/Clock";
@@ -39,8 +39,17 @@ const SItem5 = styled.div`
   grid-row: 2 / span 2;
   grid-column: 4 / span 2;
 `;
+const SMemo = styled.textarea`
+  resize: none;
+  padding: 0;
+`;
 
 export const WebPunch: VFC = memo(() => {
+  const [memo, setMemo] = useState<string>("");
+  const onChangeMemo = (e: ChangeEvent<HTMLInputElement>) => {
+    setMemo(e.target.value);
+  };
+
   const onClickIn = () => {
     alert("出勤");
   };
@@ -64,7 +73,14 @@ export const WebPunch: VFC = memo(() => {
           </PunchButton>
         </SItem3>
         <SItem4>
-          <textarea cols={50} rows={10} maxLength={20} />
+          <SMemo
+            rows={50}
+            cols={10}
+            placeholder="報告事項"
+            maxLength={20}
+            value={memo}
+            onChange={onChangeMemo}
+          />
         </SItem4>
         <SItem5>地図</SItem5>
       </SContainer>
