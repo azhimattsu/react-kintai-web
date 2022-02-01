@@ -1,6 +1,7 @@
 import { ChangeEvent, memo, useState, VFC } from "react";
 import styled from "styled-components";
 import { PrimaryButton } from "../atoms/button/PrimaryButton";
+import axios from "axios";
 
 const SContainer = styled.div`
   display: flex;
@@ -21,6 +22,10 @@ const SBox = styled.div`
   box-shadow: 0 3px 6px;
 `;
 
+type loginResult = {
+  response: string;
+};
+
 export const Login: VFC = memo(() => {
   const [userId, setUserid] = useState<string>("");
   const [passWord, setPassWord] = useState<string>("");
@@ -38,7 +43,61 @@ export const Login: VFC = memo(() => {
   };
 
   const onClickLogin = () => {
-    alert("ログイン");
+    axios.defaults.headers.get["Content-Type"] =
+      "application/json;charset=utf-8";
+    axios.defaults.headers.get["Access-Control-Allow-Origin"] = "*";
+    axios
+      .get<[]>(
+        "https://kintaiwebapi.azurewebsites.net/api/user/area/user000002"
+      )
+      .then((res) => {
+        console.log(res);
+        alert(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("err");
+      });
+    /*
+    axios
+      .get("https://jsonplaceholder.typicode.com/users/1")
+      .then((res) => {
+        console.log(res);
+        alert(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("err");
+      });
+*/
+    /*
+    axios
+      .get("https://kintaiwebapi.azurewebsites.net/api/servertime")
+      .then((res) => {
+        alert(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("err");
+      });
+*/
+    /*
+    axios
+      .post(`https://kintaiwebapi.azurewebsites.net/api/login`, {
+        body: {
+          userid: "user000001",
+          passWord: "passwordpassword",
+          userType: "1"
+        }
+      })
+      .then((res) => {
+        alert("ログイン成功！");
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("ログインできませんでした。");
+      });
+*/
   };
 
   return (
