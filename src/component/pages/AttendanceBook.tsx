@@ -1,5 +1,8 @@
-import { ChangeEvent, memo, useState, VFC } from "react";
+import { ChangeEvent, memo, useEffect, useState, VFC } from "react";
 import styled from "styled-components";
+import axios from "axios";
+import { UserInfo } from "../../types/api/UserInfo";
+import { ComboValue } from "../../types/ComboValue";
 
 const STable = styled.table`
   width: 600px;
@@ -15,10 +18,10 @@ const STh = styled.th`
   background-color: white;
 `;
 
-const lstYm: Array[] = [
-  { value: 202112, name: "2021年12月" },
-  { value: 202201, name: "2022年01月" },
-  { value: 202202, name: "2022年02月" }
+const lstYm: Array<ComboValue> = [
+  { value: "202112", name: "2021年12月" },
+  { value: "202201", name: "2022年01月" },
+  { value: "202202", name: "2022年02月" }
 ];
 
 const lstDaily: Array[] = [
@@ -34,24 +37,85 @@ const lstDaily: Array[] = [
   { ymd: 10, day: "水", abs: "出勤", in: "9:00", out: "18:00", remark: "" }
 ];
 
+const lstUsers: Array<UserInfo> = [
+  {
+    Userid: "user000001",
+    PassWord: "11111111",
+    LastName: "松井",
+    FirstName: "宏明",
+    UserType: "1",
+    CreatedUserId: "",
+    CreateOn: "",
+    UpdateUserId: "",
+    UpdatedOn: ""
+  },
+  {
+    Userid: "user000002",
+    PassWord: "11111111",
+    LastName: "ユーザー",
+    FirstName: "００２",
+    UserType: "1",
+    CreatedUserId: "",
+    CreateOn: "",
+    UpdateUserId: "",
+    UpdatedOn: ""
+  }
+];
+
 export const AttendanceBook: VFC = memo(() => {
   const [ym, setYm] = useState<string>("");
-  const onChangeYm = (e: ChangeEvent<HTMLInputElement>) => {
+  const [users, setUsers] = useState<Array<UserInfo>>([]);
+  const [selectedUser, setSelectedUsers] = useState<string>("");
+
+  const onChangeYm = (e: ChangeEvent<HTMLSelectElement>) => {
     setYm(e.target.value);
   };
+  const onChangeUser = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUsers(e.target.value);
+  };
+
+  useEffect(() => {
+    setUsers(lstUsers);
+    /*
+    axios
+      .get<Array<UserInfo>>(
+        "https://kintaiwebapi.azurewebsites.net/api/user/area/user000002"
+      )
+      .then((res) => {
+        console.log(res.data.User);
+        alert(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("err");
+      });
+*/
+  }, []);
 
   return (
     <>
       <p>出退勤一覧</p>
       <p>表示年月</p>
       <select title="表示年月" value={ym} onChange={onChangeYm}>
-        {lstYm.map((n) => {
-          return <option value={n.value}>{n.name}</option>;
+        {lstYm.map((n, index) => {
+          return (
+            <option value={n.value} key={index}>
+              {n.name}
+            </option>
+          );
         })}
       </select>
-      {ym}
       <p>従業員名</p>
-      <p>松井宏明</p>
+      <select title="従業員名" value={selectedUser} onChange={onChangeUser}>
+        {users.map((n, index) => {
+          return (
+            <option
+              value={n.Userid}
+              key={index}
+            >{`${n.LastName} ${n.FirstName}`}</option>
+          );
+        })}
+      </select>
 
       <STable>
         <thead>
@@ -65,9 +129,9 @@ export const AttendanceBook: VFC = memo(() => {
           </tr>
         </thead>
         <tbody>
-          {lstDaily.map((value) => {
+          {lstDaily.map((value, index) => {
             return (
-              <tr>
+              <tr key={index}>
                 <STh>{value.ymd}</STh>
                 <STh>{value.day}</STh>
                 <STh>{value.abs}</STh>

@@ -43,9 +43,7 @@ export const Login: VFC = memo(() => {
   };
 
   const onClickLogin = () => {
-    axios.defaults.headers.get["Content-Type"] =
-      "application/json;charset=utf-8";
-    axios.defaults.headers.get["Access-Control-Allow-Origin"] = "*";
+    /*
     axios
       .get<[]>(
         "https://kintaiwebapi.azurewebsites.net/api/user/area/user000002"
@@ -58,6 +56,7 @@ export const Login: VFC = memo(() => {
         console.log(err);
         alert("err");
       });
+*/
     /*
     axios
       .get("https://jsonplaceholder.typicode.com/users/1")
@@ -74,6 +73,7 @@ export const Login: VFC = memo(() => {
     axios
       .get("https://kintaiwebapi.azurewebsites.net/api/servertime")
       .then((res) => {
+        console.log(res);
         alert(res.data);
       })
       .catch((err) => {
@@ -81,23 +81,21 @@ export const Login: VFC = memo(() => {
         alert("err");
       });
 */
-    /*
+
     axios
-      .post(`https://kintaiwebapi.azurewebsites.net/api/login`, {
-        body: {
-          userid: "user000001",
-          passWord: "passwordpassword",
-          userType: "1"
-        }
+      .post("https://kintaiwebapi.azurewebsites.net/api/login", {
+        userid: "user000001",
+        passWord: "passwordpassword",
+        userType: "1"
       })
       .then((res) => {
+        console.log(res);
         alert("ログイン成功！");
       })
       .catch((err) => {
         console.log(err);
         alert("ログインできませんでした。");
       });
-*/
   };
 
   return (
