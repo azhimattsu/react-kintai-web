@@ -18,6 +18,27 @@ const STh = styled.th`
   background-color: white;
 `;
 
+const SMenuItem = styled.div`
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 4px;
+  display: inline-block;
+`;
+const STitleLavel = styled.p`
+  margin-top: 20px;
+  margin-left: 4px;
+  font-size: 28px;
+  font-weight: bold;
+`;
+const SItemLavel = styled.label`
+  margin-left: 4px;
+  font-size: 18px;
+`;
+const SSelectBox = styled.select`
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size: 18px;
+`;
 const lstYm: Array<ComboValue> = [
   { value: "202112", name: "2021年12月" },
   { value: "202201", name: "2022年01月" },
@@ -94,29 +115,34 @@ export const AttendanceBook: VFC = memo(() => {
 
   return (
     <>
-      <p>出退勤一覧</p>
-      <p>表示年月</p>
-      <select title="表示年月" value={ym} onChange={onChangeYm}>
-        {lstYm.map((n, index) => {
-          return (
-            <option value={n.value} key={index}>
-              {n.name}
-            </option>
-          );
-        })}
-      </select>
-      <p>従業員名</p>
-      <select title="従業員名" value={selectedUser} onChange={onChangeUser}>
-        {users.map((n, index) => {
-          return (
-            <option
-              value={n.Userid}
-              key={index}
-            >{`${n.LastName} ${n.FirstName}`}</option>
-          );
-        })}
-      </select>
-
+      <STitleLavel>出退勤一覧</STitleLavel>
+      <SMenuItem>
+        <SItemLavel>表示年月</SItemLavel>
+        <SSelectBox title="表示年月" value={ym} onChange={onChangeYm}>
+          {lstYm.map((n, index) => {
+            return (
+              <option value={n.value} key={index}>
+                {n.name}
+              </option>
+            );
+          })}
+        </SSelectBox>
+        <SItemLavel>従業員名</SItemLavel>
+        <SSelectBox
+          title="従業員名"
+          value={selectedUser}
+          onChange={onChangeUser}
+        >
+          {users.map((n, index) => {
+            return (
+              <option
+                value={n.Userid}
+                key={index}
+              >{`${n.LastName} ${n.FirstName}`}</option>
+            );
+          })}
+        </SSelectBox>
+      </SMenuItem>
       <STable>
         <thead>
           <tr>
