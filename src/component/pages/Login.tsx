@@ -3,28 +3,32 @@ import styled from "styled-components";
 import { PrimaryButton } from "../atoms/button/PrimaryButton";
 import axios from "axios";
 
-const SContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
-const SBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
-  width: 30%;
+const SBody = styled.div`
+  width: 400px;
+  margin: 100px auto;
+  padding: 20px;
+  border: 1px solid #555;
   background-color: white;
   border-radius: 4px;
   box-shadow: 0 3px 6px;
 `;
 
-type loginResult = {
-  response: string;
-};
+const STitle = styled.p`
+  font-size: 14px;
+  text-align: center;
+`;
+
+const SItemBox = styled.p`
+  font-size: 14px;
+  margin-bottom: 20px;
+  text-align: center;
+`;
+
+const SInput = styled.input`
+  width: 300px;
+  padding: 4px;
+  font-size: 14px;
+`;
 
 export const Login: VFC = memo(() => {
   const [userId, setUserid] = useState<string>("");
@@ -43,48 +47,9 @@ export const Login: VFC = memo(() => {
   };
 
   const onClickLogin = () => {
-    /*
-    axios
-      .get<[]>(
-        "https://kintaiwebapi.azurewebsites.net/api/user/area/user000002"
-      )
-      .then((res) => {
-        console.log(res);
-        alert(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("err");
-      });
-*/
-    /*
-    axios
-      .get("https://jsonplaceholder.typicode.com/users/1")
-      .then((res) => {
-        console.log(res);
-        alert(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("err");
-      });
-*/
-    /*
-    axios
-      .get("https://kintaiwebapi.azurewebsites.net/api/servertime")
-      .then((res) => {
-        console.log(res);
-        alert(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("err");
-      });
-*/
-
     axios
       .post("https://kintaiwebapi.azurewebsites.net/api/login", {
-        userid: "user000001",
+        userid: "user000002",
         passWord: "passwordpassword",
         userType: "1"
       })
@@ -99,40 +64,27 @@ export const Login: VFC = memo(() => {
   };
 
   return (
-    <SContainer>
-      <SBox>
-        <input
-          placeholder="ユーザーID"
-          value={userId}
-          onChange={onChangeUserId}
-        />
-        <input
-          placeholder="パスワード"
-          value={passWord}
-          onChange={onChangePassWord}
-        />
-        <label key="general">
-          <input
-            type="radio"
-            name="logintype"
-            value="general"
-            checked={logintype === "general"}
-            onChange={onChangeLoginType}
+    <>
+      <SBody>
+        <STitle>ログイン</STitle>
+        <SItemBox>
+          <SInput
+            placeholder="ユーザーID"
+            value={userId}
+            onChange={onChangeUserId}
           />
-          一般
-        </label>
-        <label key="manager">
-          <input
-            type="radio"
-            name="logintype"
-            value="manager"
-            checked={logintype === "manager"}
-            onChange={onChangeLoginType}
+        </SItemBox>
+        <SItemBox>
+          <SInput
+            placeholder="パスワード"
+            value={passWord}
+            onChange={onChangePassWord}
           />
-          管理者
-        </label>
-        <PrimaryButton onClick={onClickLogin}>ログイン</PrimaryButton>
-      </SBox>
-    </SContainer>
+        </SItemBox>
+        <SItemBox>
+          <PrimaryButton onClick={onClickLogin}>ログイン</PrimaryButton>
+        </SItemBox>
+      </SBody>
+    </>
   );
 });
