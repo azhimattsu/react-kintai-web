@@ -14,6 +14,10 @@ const SButton = styled.button`
   padding-right: 10px;
   padding-bottom: 4px;
   border-radius: 4px;
+  :hover {
+    opacity: 0.8;
+    cursor: pointer;
+  }
 `;
 
 export const PrimaryButton: VFC<Props> = memo((props) => {

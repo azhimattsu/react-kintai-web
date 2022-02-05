@@ -14,7 +14,6 @@ const SButton = styled.div`
   transition: 0.4s;
   width: 160px;
   height: 160px;
-
   :hover {
     background: #00bcd4;
     color: white;

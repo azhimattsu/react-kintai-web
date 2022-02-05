@@ -33,17 +33,12 @@ const SInput = styled.input`
 export const Login: VFC = memo(() => {
   const [userId, setUserid] = useState<string>("");
   const [passWord, setPassWord] = useState<string>("");
-  const [logintype, setLoginType] = useState<string>("general");
   const onChangeUserId = (e: ChangeEvent<HTMLInputElement>) => {
     setUserid(e.target.value);
   };
 
   const onChangePassWord = (e: ChangeEvent<HTMLInputElement>) => {
     setPassWord(e.target.value);
-  };
-
-  const onChangeLoginType = (e: ChangeEvent<HTMLInputElement>) => {
-    setLoginType(e.target.value);
   };
 
   const onClickLogin = () => {
@@ -67,6 +62,7 @@ export const Login: VFC = memo(() => {
     <>
       <SBody>
         <STitle>ログイン</STitle>
+        <hr />
         <SItemBox>
           <SInput
             placeholder="ユーザーID"
