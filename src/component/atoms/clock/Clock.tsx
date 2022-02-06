@@ -4,9 +4,7 @@ import { interval } from "rxjs";
 
 const SContainer = styled.div`
   background-color: white;
-  height: 100%;
 `;
-
 const SDay = styled.div`
   font-size: 32px;
   text-align: center;

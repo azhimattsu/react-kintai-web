@@ -7,13 +7,12 @@ const SButton = styled.div`
   justify-content: center;
   font-weight: bold;
   font-size: 4em;
-  padding: 0.1em 0.1em;
   text-decoration: none;
   color: #00bcd4;
   background: #ececec;
   transition: 0.4s;
-  width: 160px;
-  height: 160px;
+  width: 200px;
+  height: 200px;
   :hover {
     background: #00bcd4;
     color: white;

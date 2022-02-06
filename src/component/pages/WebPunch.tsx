@@ -4,44 +4,43 @@ import { PunchButton } from "../atoms/button/PunchButton";
 import { Clock } from "../atoms/clock/Clock";
 import ImgIn from "../../icons/logo.png";
 
-const SContainer = styled.div`
-  display: grid;
-  grid-template-rows: 200px 200px 200px 200px;
-  grid-template-columns: 100px 200px 200px 200px 200px 100px;
-`;
-
-const SItem1 = styled.div`
-  background-color: red;
-  grid-row: 1;
-  grid-column: 1 / span 7;
-`;
-
-const SItem2 = styled.div`
-  background-color: green;
-  grid-row: 2;
-  grid-column: 2;
-`;
-
-const SItem3 = styled.div`
-  background-color: blue;
-  grid-row: 2;
-  grid-column: 3;
-`;
-
-const SItem4 = styled.div`
-  background-color: pink;
-  grid-row: 3;
-  grid-column: 2 / span 2;
-`;
-
-const SItem5 = styled.div`
+const SBody = styled.div`
+  width: 800px;
+  margin: 100px auto;
+  padding: 20px;
+  border: 1px solid #555;
   background-color: white;
-  grid-row: 2 / span 2;
-  grid-column: 4 / span 2;
+`;
+
+const SArea1 = styled.div`
+  display: grid;
+  grid-template-columns: 400px 50%;
+  grid-template-rows: 200px 200px;
+  border: 1px solid blue;
+`;
+const SBox1 = styled.div`
+  display: frex;
+  grid-column: 1/2;
+  border: 1px solid green;
+`;
+const SBox2 = styled.div`
+  display: frex;
+  grid-column: 1/2;
+  grid-row: 2/3;
+  border: 1px solid black;
+`;
+const SBox3 = styled.div`
+  display: frex;
+  grid-column: 2/3;
+  grid-row: 1/3;
+  border: 1px solid black;
 `;
 const SMemo = styled.textarea`
   resize: none;
   padding: 0;
+  margin: 0;
+  width: 390px;
+  height: 190px;
 `;
 
 export const WebPunch: VFC = memo(() => {
@@ -58,32 +57,28 @@ export const WebPunch: VFC = memo(() => {
   };
   return (
     <>
-      <SContainer>
-        <SItem1>
-          <Clock />
-        </SItem1>
-        <SItem2>
-          <PunchButton src={ImgIn} onClick={onClickIn}>
-            出勤
-          </PunchButton>
-        </SItem2>
-        <SItem3>
-          <PunchButton src={ImgIn} onClick={onClickOut}>
-            退勤
-          </PunchButton>
-        </SItem3>
-        <SItem4>
-          <SMemo
-            rows={50}
-            cols={10}
-            placeholder="報告事項"
-            maxLength={20}
-            value={memo}
-            onChange={onChangeMemo}
-          />
-        </SItem4>
-        <SItem5>地図</SItem5>
-      </SContainer>
+      <SBody>
+        <Clock />
+        <SArea1>
+          <SBox1>
+            <PunchButton src={ImgIn} onClick={onClickIn}>
+              出勤
+            </PunchButton>
+            <PunchButton src={ImgIn} onClick={onClickOut}>
+              退勤
+            </PunchButton>
+          </SBox1>
+          <SBox2>
+            <SMemo
+              placeholder="報告事項"
+              maxLength={20}
+              value={memo}
+              onChange={onChangeMemo}
+            />
+          </SBox2>
+          <SBox3>地図エリア</SBox3>
+        </SArea1>
+      </SBody>
     </>
   );
 });
