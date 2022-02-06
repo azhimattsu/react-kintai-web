@@ -2,6 +2,7 @@ import { ChangeEvent, memo, useState, VFC } from "react";
 import styled from "styled-components";
 import { PrimaryButton } from "../atoms/button/PrimaryButton";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const SBody = styled.div`
   width: 400px;
@@ -31,6 +32,7 @@ const SInput = styled.input`
 `;
 
 export const Login: VFC = memo(() => {
+  const history = useHistory();
   const [userId, setUserid] = useState<string>("");
   const [passWord, setPassWord] = useState<string>("");
   const onChangeUserId = (e: ChangeEvent<HTMLInputElement>) => {
@@ -50,7 +52,8 @@ export const Login: VFC = memo(() => {
       })
       .then((res) => {
         console.log(res);
-        alert("ログイン成功！");
+        //alert("ログイン成功！");
+        history.push("/home");
       })
       .catch((err) => {
         console.log(err);
