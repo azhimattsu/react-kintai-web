@@ -1,6 +1,6 @@
 import { ChangeEvent, memo, useEffect, useState, VFC } from "react";
 import styled from "styled-components";
-import axios from "axios";
+//import axios from "axios";
 import { UserInfo } from "../../types/api/UserInfo";
 import { ComboValue } from "../../types/ComboValue";
 

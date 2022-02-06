@@ -15,9 +15,19 @@ const STime = styled.div`
   text-align: center;
 `;
 
+type Week = "日" | "月" | "火" | "水" | "木" | "金" | "土";
+const WEEKS: Array<Week> = ["日", "月", "火", "水", "木", "金", "土"];
+
 export const Clock: VFC = memo(() => {
   const [date, setDate] = useState(new Date());
 
+  const zeroPadding = (num: number, len: number) => {
+    return (Array(len).join("0") + num).slice(-len);
+  };
+
+  const getWeek = (day: number) => {
+    return WEEKS[day];
+  };
   useEffect(() => {
     const subscription = interval(1000).subscribe(() => {
       setDate(new Date());
@@ -29,10 +39,16 @@ export const Clock: VFC = memo(() => {
 
   return (
     <SContainer>
-      <SDay>{`${date.getFullYear()} / ${
-        date.getMonth() + 1
-      } / ${date.getDate()}`}</SDay>
-      <STime>{`${date.getHours()} : ${date.getMinutes()} : ${date.getSeconds()}`}</STime>
+      <SDay>{`${date.getFullYear()} / ${zeroPadding(
+        date.getMonth() + 1,
+        2
+      )} / ${zeroPadding(date.getDate(), 2)} （${getWeek(
+        date.getDay()
+      )}）`}</SDay>
+      <STime>{`${zeroPadding(date.getHours(), 2)} : ${zeroPadding(
+        date.getMinutes(),
+        2
+      )} : ${zeroPadding(date.getSeconds(), 2)}`}</STime>
     </SContainer>
   );
 });

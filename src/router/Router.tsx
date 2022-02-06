@@ -1,8 +1,6 @@
 import { memo, VFC } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Login } from "../component/pages/Login";
-import { WebPunch } from "../component/pages/WebPunch";
-import { AttendanceBook } from "../component/pages/AttendanceBook";
 import { HomeRoutes } from "./HoumeRoutes";
 import { DefaultLayout } from "../component/templetes/DefaultLayout";
 
