@@ -1,7 +1,9 @@
 import { ChangeEvent, memo, useEffect, useState, VFC } from "react";
 import styled from "styled-components";
-//import axios from "axios";
+import axios from "axios";
 import { UserInfo } from "../../types/api/UserInfo";
+import { Punch } from "../../types/api/Punch";
+import { PunchInfo } from "../../types/api/PunchInfo";
 import { ComboValue } from "../../types/ComboValue";
 
 const STable = styled.table`
@@ -60,7 +62,7 @@ const lstDaily: Array[] = [
 
 const lstUsers: Array<UserInfo> = [
   {
-    Userid: "user000001",
+    Userid: "user000002",
     PassWord: "11111111",
     LastName: "松井",
     FirstName: "宏明",
@@ -86,13 +88,29 @@ const lstUsers: Array<UserInfo> = [
 export const AttendanceBook: VFC = memo(() => {
   const [ym, setYm] = useState<string>("");
   const [users, setUsers] = useState<Array<UserInfo>>([]);
+  const [kintaiData, setKintaiData] = useState<Punch>();
   const [selectedUser, setSelectedUsers] = useState<string>("");
 
+  const getKintai = () => {
+    axios
+      .get<Punch>(
+        "https://kintaiwebapi.azurewebsites.net/api/punch/user000001/202201"
+      )
+      .then((res) => {
+        console.log(res.data);
+        setKintaiData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("err");
+      });
+  };
   const onChangeYm = (e: ChangeEvent<HTMLSelectElement>) => {
     setYm(e.target.value);
   };
   const onChangeUser = (e: ChangeEvent<HTMLSelectElement>) => {
     setSelectedUsers(e.target.value);
+    getKintai();
   };
 
   useEffect(() => {
@@ -151,19 +169,21 @@ export const AttendanceBook: VFC = memo(() => {
             <STh>勤怠区分</STh>
             <STh>出勤時刻</STh>
             <STh>退勤時刻</STh>
+            <STh>労働時間</STh>
             <STh>備考</STh>
           </tr>
         </thead>
         <tbody>
-          {lstDaily.map((value, index) => {
+          {kintaiData?.PunchInfoList.map((value, index) => {
             return (
               <tr key={index}>
-                <STh>{value.ymd}</STh>
-                <STh>{value.day}</STh>
-                <STh>{value.abs}</STh>
-                <STh>{value.in}</STh>
-                <STh>{value.out}</STh>
-                <STh>{value.remark}</STh>
+                <STh>{value.Ymd}</STh>
+                <STh>{value.Ymd}</STh>
+                <STh>{value.AttendanceType}</STh>
+                <STh>{value.AttendanceTime}</STh>
+                <STh>{value.LeavingTime}</STh>
+                <STh>{value.WorkingTime}</STh>
+                <STh>{value.Remarks}</STh>
               </tr>
             );
           })}
