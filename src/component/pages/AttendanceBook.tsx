@@ -7,6 +7,7 @@ import { PunchInfo } from "../../types/api/PunchInfo";
 import { ComboValue } from "../../types/ComboValue";
 import useWeekDay from "../../hooks/useWeekDay";
 import useTime from "../../hooks/useTime";
+import { useLoginUser } from "../../hooks/useLoginUser";
 
 const STable = styled.table`
   width: 900px;
@@ -81,6 +82,7 @@ const Works: Array<workType> = ["", "出勤", "有休", "他休"];
 export const AttendanceBook: VFC = memo(() => {
   const { getStringByYmd } = useWeekDay();
   const { getTimeToHM } = useTime();
+  const { loginUser } = useLoginUser();
 
   const [ym, setYm] = useState<string>("");
   const [users, setUsers] = useState<Array<UserInfo>>([]);
@@ -94,6 +96,7 @@ export const AttendanceBook: VFC = memo(() => {
       )
       .then((res) => {
         console.log(res.data);
+        console.log(loginUser);
         setKintaiData(res.data);
       })
       .catch((err) => {
@@ -111,6 +114,7 @@ export const AttendanceBook: VFC = memo(() => {
 
   useEffect(() => {
     setUsers(lstUsers);
+    console.log(loginUser);
     /*
     axios
       .get<Array<UserInfo>>(
@@ -125,7 +129,7 @@ export const AttendanceBook: VFC = memo(() => {
         alert("err");
       });
 */
-  }, []);
+  }, [loginUser]);
 
   return (
     <>
