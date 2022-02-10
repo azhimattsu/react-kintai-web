@@ -1,7 +1,7 @@
 import { memo, useEffect, useState, VFC } from "react";
 import styled from "styled-components";
 import { interval } from "rxjs";
-
+import useWeekDay from "../../../hooks/useWeekDay";
 const SContainer = styled.div`
   background-color: white;
 `;
@@ -15,19 +15,13 @@ const STime = styled.div`
   text-align: center;
 `;
 
-type Week = "日" | "月" | "火" | "水" | "木" | "金" | "土";
-const WEEKS: Array<Week> = ["日", "月", "火", "水", "木", "金", "土"];
-
 export const Clock: VFC = memo(() => {
   const [date, setDate] = useState(new Date());
-
+  const { getString } = useWeekDay();
   const zeroPadding = (num: number, len: number) => {
     return (Array(len).join("0") + num).slice(-len);
   };
 
-  const getWeek = (day: number) => {
-    return WEEKS[day];
-  };
   useEffect(() => {
     const subscription = interval(1000).subscribe(() => {
       setDate(new Date());
@@ -42,7 +36,7 @@ export const Clock: VFC = memo(() => {
       <SDay>{`${date.getFullYear()} / ${zeroPadding(
         date.getMonth() + 1,
         2
-      )} / ${zeroPadding(date.getDate(), 2)} （${getWeek(
+      )} / ${zeroPadding(date.getDate(), 2)} （${getString(
         date.getDay()
       )}）`}</SDay>
       <STime>{`${zeroPadding(date.getHours(), 2)} : ${zeroPadding(

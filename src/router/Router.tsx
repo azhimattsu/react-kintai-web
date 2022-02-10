@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import { Login } from "../component/pages/Login";
 import { HomeRoutes } from "./HoumeRoutes";
 import { DefaultLayout } from "../component/templetes/DefaultLayout";
+import { HeaderMenuLayout } from "../component/templetes/HeaderMenuLayout";
 
 export const Router: VFC = memo(() => {
   return (
@@ -22,7 +23,7 @@ export const Router: VFC = memo(() => {
                 exact={route.exact}
                 path={`${url}${route.path}`}
               >
-                <DefaultLayout>{route.children}</DefaultLayout>
+                <HeaderMenuLayout>{route.children}</HeaderMenuLayout>
               </Route>
             ))}
           </Switch>

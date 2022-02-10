@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 
 const SBody = styled.div`
   width: 400px;
-  margin: 100px auto;
+  margin: 200px auto;
   padding: 20px;
   border: 1px solid #555;
   background-color: white;
@@ -15,20 +15,26 @@ const SBody = styled.div`
 `;
 
 const STitle = styled.p`
-  font-size: 14px;
+  font-size: 24px;
+  font-weight: bold;
   text-align: center;
 `;
 
 const SItemBox = styled.p`
   font-size: 14px;
   margin-bottom: 20px;
-  text-align: center;
+  text-align: left;
 `;
 
 const SInput = styled.input`
-  width: 300px;
+  width: 100%;
+  box-sizing: border-box;
   padding: 4px;
   font-size: 14px;
+`;
+const SInputLabel = styled.p`
+  font-size: 14px;
+  text-align: left;
 `;
 
 export const Login: VFC = memo(() => {
@@ -64,9 +70,10 @@ export const Login: VFC = memo(() => {
   return (
     <>
       <SBody>
-        <STitle>ログイン</STitle>
+        <STitle>ジオる!勤怠</STitle>
         <hr />
         <SItemBox>
+          <SInputLabel>ユーザID</SInputLabel>
           <SInput
             placeholder="ユーザーID"
             value={userId}
@@ -74,6 +81,7 @@ export const Login: VFC = memo(() => {
           />
         </SItemBox>
         <SItemBox>
+          <SInputLabel>パスワード</SInputLabel>
           <SInput
             placeholder="パスワード"
             value={passWord}

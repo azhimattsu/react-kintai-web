@@ -7,6 +7,7 @@ type Props = {
 };
 
 const SButton = styled.button`
+  width: 100%;
   color: white;
   background-color: #2e8b57;
   padding-top: 4px;

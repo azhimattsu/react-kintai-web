@@ -160,4 +160,5 @@ select {
   font-family: sans-serif;
   background-color: #e4f9f5;
   min-height: 100vh;
+  padding: 1px;
 }

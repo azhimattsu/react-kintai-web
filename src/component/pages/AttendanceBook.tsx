@@ -5,9 +5,12 @@ import { UserInfo } from "../../types/api/UserInfo";
 import { Punch } from "../../types/api/Punch";
 import { PunchInfo } from "../../types/api/PunchInfo";
 import { ComboValue } from "../../types/ComboValue";
+import useWeekDay from "../../hooks/useWeekDay";
+import useTime from "../../hooks/useTime";
 
 const STable = styled.table`
-  width: 600px;
+  width: 900px;
+  margin-left: 4px;
   border-collapse: collapse;
   color: #ff9800;
   //background-color: #fff5e5;
@@ -47,19 +50,6 @@ const lstYm: Array<ComboValue> = [
   { value: "202202", name: "2022年02月" }
 ];
 
-const lstDaily: Array[] = [
-  { ymd: 1, day: "月", abs: "出勤", in: "9:00", out: "18:00", remark: "" },
-  { ymd: 2, day: "火", abs: "出勤", in: "9:00", out: "18:00", remark: "" },
-  { ymd: 3, day: "水", abs: "出勤", in: "9:00", out: "18:00", remark: "" },
-  { ymd: 4, day: "木", abs: "出勤", in: "9:00", out: "18:00", remark: "" },
-  { ymd: 5, day: "金", abs: "出勤", in: "9:00", out: "18:00", remark: "" },
-  { ymd: 6, day: "土", abs: "出勤", in: "9:00", out: "18:00", remark: "" },
-  { ymd: 7, day: "日", abs: "出勤", in: "9:00", out: "18:00", remark: "" },
-  { ymd: 8, day: "月", abs: "出勤", in: "9:00", out: "18:00", remark: "" },
-  { ymd: 9, day: "火", abs: "出勤", in: "9:00", out: "18:00", remark: "" },
-  { ymd: 10, day: "水", abs: "出勤", in: "9:00", out: "18:00", remark: "" }
-];
-
 const lstUsers: Array<UserInfo> = [
   {
     Userid: "user000002",
@@ -85,7 +75,13 @@ const lstUsers: Array<UserInfo> = [
   }
 ];
 
+type workType = "" | "出勤" | "有休" | "他休";
+const Works: Array<workType> = ["", "出勤", "有休", "他休"];
+
 export const AttendanceBook: VFC = memo(() => {
+  const { getStringByYmd } = useWeekDay();
+  const { getTimeToHM } = useTime();
+
   const [ym, setYm] = useState<string>("");
   const [users, setUsers] = useState<Array<UserInfo>>([]);
   const [kintaiData, setKintaiData] = useState<Punch>();
@@ -177,12 +173,24 @@ export const AttendanceBook: VFC = memo(() => {
           {kintaiData?.PunchInfoList.map((value, index) => {
             return (
               <tr key={index}>
-                <STh>{value.Ymd}</STh>
-                <STh>{value.Ymd}</STh>
-                <STh>{value.AttendanceType}</STh>
-                <STh>{value.AttendanceTime}</STh>
-                <STh>{value.LeavingTime}</STh>
-                <STh>{value.WorkingTime}</STh>
+                <STh>{`${value.Ymd.slice(4, 6)}/${value.Ymd.slice(6, 8)}`}</STh>
+                <STh>{getStringByYmd(value.Ymd)}</STh>
+                <STh>{Works[parseInt(value.AttendanceType, 10)]}</STh>
+                <STh>
+                  {value.AttendanceTime === ""
+                    ? "__:__"
+                    : getTimeToHM(parseInt(value.AttendanceTime, 10))}
+                </STh>
+                <STh>
+                  {value.LeavingTime === ""
+                    ? "__:__"
+                    : getTimeToHM(parseInt(value.LeavingTime, 10))}
+                </STh>
+                <STh>
+                  {value.WorkingTime === "0"
+                    ? ""
+                    : getTimeToHM(parseInt(value.WorkingTime, 10))}
+                </STh>
                 <STh>{value.Remarks}</STh>
               </tr>
             );

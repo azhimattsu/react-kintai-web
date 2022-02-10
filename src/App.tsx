@@ -6,12 +6,17 @@ import { AttendanceBook } from "./component/pages/AttendanceBook";
 export default function App() {
   return (
     <div className="App">
-      <AttendanceBook />
-      {/*
-
       <BrowserRouter>
         <Router />
       </BrowserRouter>
+
+      {/*<AttendanceBook />*/}
+
+      {/*
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
+
 */}
     </div>
   );
