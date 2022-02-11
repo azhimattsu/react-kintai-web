@@ -1,5 +1,5 @@
 import { PunchInfo } from "./PunchInfo";
-export type Punch = {
+export type Get_Punch = {
   PunchInfoList: Array<PunchInfo>;
   ResultMsg: string;
   Exception: string;

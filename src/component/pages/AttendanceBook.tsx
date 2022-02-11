@@ -2,7 +2,7 @@ import { ChangeEvent, memo, useEffect, useState, VFC } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { UserInfo } from "../../types/api/UserInfo";
-import { Punch } from "../../types/api/Punch";
+import { Get_Punch } from "../../types/api/Get_Punch";
 import { PunchInfo } from "../../types/api/PunchInfo";
 import { ComboValue } from "../../types/ComboValue";
 import useWeekDay from "../../hooks/useWeekDay";
@@ -86,12 +86,12 @@ export const AttendanceBook: VFC = memo(() => {
 
   const [ym, setYm] = useState<string>("");
   const [users, setUsers] = useState<Array<UserInfo>>([]);
-  const [kintaiData, setKintaiData] = useState<Punch>();
+  const [kintaiData, setKintaiData] = useState<Get_Punch>();
   const [selectedUser, setSelectedUsers] = useState<string>("");
 
   const getKintai = () => {
     axios
-      .get<Punch>(
+      .get<Get_Punch>(
         "https://kintaiwebapi.azurewebsites.net/api/punch/user000001/202201"
       )
       .then((res) => {

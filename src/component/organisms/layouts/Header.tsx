@@ -18,7 +18,6 @@ export const Header: VFC = memo(() => {
   return (
     <>
       <SHeader>ジオる!勤怠</SHeader>
-      ログインユーザ：松井宏明 管理画面へ ログアウト
     </>
   );
 });
