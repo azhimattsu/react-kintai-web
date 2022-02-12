@@ -5,6 +5,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { useLoginUser } from "../../hooks/useLoginUser";
 import { Get_User } from "../../types/api/Get_User";
+import { Loading } from "../atoms/Loading";
 
 const SBody = styled.div`
   width: 400px;
@@ -44,6 +45,8 @@ export const Login: VFC = memo(() => {
   const { setLoginUser } = useLoginUser();
   const [userId, setUserid] = useState<string>("user000004");
   const [passWord, setPassWord] = useState<string>("passwordpassword");
+  const [isLoading, setIsLoading] = useState(false);
+
   const onChangeUserId = (e: ChangeEvent<HTMLInputElement>) => {
     setUserid(e.target.value);
   };
@@ -68,6 +71,7 @@ export const Login: VFC = memo(() => {
   };
 
   const onClickLogin = () => {
+    setIsLoading(true);
     axios
       .post("https://kintaiwebapi.azurewebsites.net/api/login", {
         userid: userId,
@@ -76,10 +80,12 @@ export const Login: VFC = memo(() => {
       })
       .then((res) => {
         getLoginUser();
+        setIsLoading(false);
         //alert("ログイン成功！");
         history.push("/home");
       })
       .catch((err) => {
+        setIsLoading(false);
         console.log(err);
         alert("ログインできませんでした。");
       });
@@ -87,6 +93,7 @@ export const Login: VFC = memo(() => {
 
   return (
     <>
+      {isLoading === true ? <Loading /> : ""}
       <SBody>
         <STitle>ジオる!勤怠</STitle>
         <hr />

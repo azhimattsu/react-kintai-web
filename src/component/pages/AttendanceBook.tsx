@@ -8,6 +8,7 @@ import { ComboValue } from "../../types/ComboValue";
 import useWeekDay from "../../hooks/useWeekDay";
 import useTime from "../../hooks/useTime";
 import { useLoginUser } from "../../hooks/useLoginUser";
+import { Loading } from "../atoms/Loading";
 
 const STable = styled.table`
   margin-left: 4px;
@@ -111,16 +112,20 @@ export const AttendanceBook: VFC = memo(() => {
   const [users, setUsers] = useState<Array<UserInfo>>([]);
   const [kintaiData, setKintaiData] = useState<Get_Punch>();
   const [selectedUser, setSelectedUsers] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const getKintai = () => {
+    setIsLoading(true);
     axios
       .get<Get_Punch>(
         `https://kintaiwebapi.azurewebsites.net/api/punch/${selectedUser}/${ym}`
       )
       .then((res) => {
         setKintaiData(res.data);
+        setIsLoading(false);
       })
       .catch((err) => {
+        setIsLoading(false);
         console.log(err);
         alert("err");
       });
@@ -161,6 +166,7 @@ export const AttendanceBook: VFC = memo(() => {
 
   return (
     <>
+      {isLoading === true ? <Loading /> : ""}
       <STitleLavel>出退勤一覧</STitleLavel>
       <SMenuItem>
         <SItemLavel>表示年月</SItemLavel>

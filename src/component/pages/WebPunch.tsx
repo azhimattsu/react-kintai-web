@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { PunchButton } from "../atoms/button/PunchButton";
 import { Clock } from "../atoms/clock/Clock";
 import ImgIn from "../../icons/logo.png";
+import { Loading } from "../atoms/Loading";
 
 const SBody = styled.div`
   width: 800px;
@@ -45,18 +46,24 @@ const SMemo = styled.textarea`
 
 export const WebPunch: VFC = memo(() => {
   const [memo, setMemo] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
   const onChangeMemo = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setMemo(e.target.value);
   };
 
   const onClickIn = () => {
+    setIsLoading(true);
+    setIsLoading(false);
     alert("出勤");
   };
   const onClickOut = () => {
+    setIsLoading(true);
+    setIsLoading(false);
     alert("退勤");
   };
   return (
     <>
+      {isLoading === true ? <Loading /> : ""}
       <SBody>
         <Clock />
         <SArea1>
