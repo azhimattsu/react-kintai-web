@@ -59,7 +59,6 @@ export const Login: VFC = memo(() => {
       )
       .then((res) => {
         const { UserInfo } = res.data;
-        //        console.log(UserInfo);
         setLoginUser(UserInfo);
       })
       .catch((err) => {
@@ -69,7 +68,6 @@ export const Login: VFC = memo(() => {
   };
 
   const onClickLogin = () => {
-    console.log(passWord);
     axios
       .post("https://kintaiwebapi.azurewebsites.net/api/login", {
         userid: userId,
@@ -77,7 +75,6 @@ export const Login: VFC = memo(() => {
         userType: "0"
       })
       .then((res) => {
-        //console.log(res);
         getLoginUser();
         //alert("ログイン成功！");
         history.push("/home");

@@ -4,21 +4,41 @@ import axios from "axios";
 import { UserInfo } from "../../types/api/UserInfo";
 import { Get_Punch } from "../../types/api/Get_Punch";
 import { Get_AllUser } from "../../types/api/Get_AllUser";
-import { PunchInfo } from "../../types/api/PunchInfo";
 import { ComboValue } from "../../types/ComboValue";
 import useWeekDay from "../../hooks/useWeekDay";
 import useTime from "../../hooks/useTime";
 import { useLoginUser } from "../../hooks/useLoginUser";
 
 const STable = styled.table`
-  width: 900px;
   margin-left: 4px;
   border-collapse: collapse;
   color: #ff9800;
-  //background-color: #fff5e5;
   text-align: center;
 `;
 const STh = styled.th`
+  width: 100px;
+  padding: 4px;
+  border: solid 1px black;
+  color: black;
+  background-color: #dddddd;
+`;
+const SThMemo = styled.th`
+  width: 200px;
+  padding: 4px;
+  border: solid 1px black;
+  color: black;
+  background-color: #dddddd;
+`;
+
+const SThBody = styled.th`
+  width: 100px;
+  padding: 4px;
+  border: solid 1px black;
+  color: black;
+  background-color: white;
+`;
+const SThMemoBody = styled.th`
+  width: 200px;
   padding: 4px;
   border: solid 1px black;
   color: black;
@@ -87,7 +107,7 @@ export const AttendanceBook: VFC = memo(() => {
   const { getTimeToHM } = useTime();
   const { loginUser } = useLoginUser();
 
-  const [ym, setYm] = useState<string>("");
+  const [ym, setYm] = useState<string>("202202");
   const [users, setUsers] = useState<Array<UserInfo>>([]);
   const [kintaiData, setKintaiData] = useState<Get_Punch>();
   const [selectedUser, setSelectedUsers] = useState<string>("");
@@ -98,8 +118,6 @@ export const AttendanceBook: VFC = memo(() => {
         `https://kintaiwebapi.azurewebsites.net/api/punch/${selectedUser}/${ym}`
       )
       .then((res) => {
-        //        console.log(res.data);
-        //        console.log(loginUser);
         setKintaiData(res.data);
       })
       .catch((err) => {
@@ -119,14 +137,13 @@ export const AttendanceBook: VFC = memo(() => {
   };
 
   useEffect(() => {
-    //setUsers(lstUsers);
-    //console.log(loginUser);
     if (loginUser?.UserType === "1") {
       axios
         .get<Get_AllUser>("https://kintaiwebapi.azurewebsites.net/api/user")
         .then((res) => {
           //console.log(res.data);
           setUsers(res.data.AllUserInfos);
+          setSelectedUsers(res.data.AllUserInfos[0]?.UserId);
         })
         .catch((err) => {
           console.log(err);
@@ -137,6 +154,7 @@ export const AttendanceBook: VFC = memo(() => {
       if (loginUser !== null) {
         lstUser.push(loginUser);
         setUsers(lstUser);
+        setSelectedUsers(lstUser[0]?.UserId);
       }
     }
   }, [loginUser]);
@@ -181,32 +199,35 @@ export const AttendanceBook: VFC = memo(() => {
             <STh>出勤時刻</STh>
             <STh>退勤時刻</STh>
             <STh>労働時間</STh>
-            <STh>備考</STh>
+            <SThMemo>備考</SThMemo>
           </tr>
         </thead>
         <tbody>
           {kintaiData?.PunchInfoList.map((value, index) => {
             return (
               <tr key={index}>
-                <STh>{`${value.Ymd.slice(4, 6)}/${value.Ymd.slice(6, 8)}`}</STh>
-                <STh>{getStringByYmd(value.Ymd)}</STh>
-                <STh>{Works[parseInt(value.AttendanceType, 10)]}</STh>
-                <STh>
+                <SThBody>{`${value.Ymd.slice(4, 6)}/${value.Ymd.slice(
+                  6,
+                  8
+                )}`}</SThBody>
+                <SThBody>{getStringByYmd(value.Ymd)}</SThBody>
+                <SThBody>{Works[parseInt(value.AttendanceType, 10)]}</SThBody>
+                <SThBody>
                   {value.AttendanceTime === ""
                     ? "__:__"
                     : getTimeToHM(parseInt(value.AttendanceTime, 10))}
-                </STh>
-                <STh>
+                </SThBody>
+                <SThBody>
                   {value.LeavingTime === ""
                     ? "__:__"
                     : getTimeToHM(parseInt(value.LeavingTime, 10))}
-                </STh>
-                <STh>
+                </SThBody>
+                <SThBody>
                   {value.WorkingTime === "0"
                     ? ""
                     : getTimeToHM(parseInt(value.WorkingTime, 10))}
-                </STh>
-                <STh>{value.Remarks}</STh>
+                </SThBody>
+                <SThMemoBody>{value.Remarks}</SThMemoBody>
               </tr>
             );
           })}
