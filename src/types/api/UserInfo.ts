@@ -1,5 +1,5 @@
 export type UserInfo = {
-  Userid: string;
+  UserId: string;
   PassWord: string;
   LastName: string;
   FirstName: string;

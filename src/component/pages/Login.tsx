@@ -42,8 +42,8 @@ const SInputLabel = styled.p`
 export const Login: VFC = memo(() => {
   const history = useHistory();
   const { setLoginUser } = useLoginUser();
-  const [userId, setUserid] = useState<string>("");
-  const [passWord, setPassWord] = useState<string>("");
+  const [userId, setUserid] = useState<string>("user000004");
+  const [passWord, setPassWord] = useState<string>("passwordpassword");
   const onChangeUserId = (e: ChangeEvent<HTMLInputElement>) => {
     setUserid(e.target.value);
   };
@@ -55,11 +55,11 @@ export const Login: VFC = memo(() => {
   const getLoginUser = () => {
     axios
       .get<Get_User>(
-        `https://kintaiwebapi.azurewebsites.net/api/user/user000002`
+        `https://kintaiwebapi.azurewebsites.net/api/user/${userId}`
       )
       .then((res) => {
         const { UserInfo } = res.data;
-        console.log(UserInfo);
+        //        console.log(UserInfo);
         setLoginUser(UserInfo);
       })
       .catch((err) => {
@@ -69,11 +69,12 @@ export const Login: VFC = memo(() => {
   };
 
   const onClickLogin = () => {
+    console.log(passWord);
     axios
       .post("https://kintaiwebapi.azurewebsites.net/api/login", {
-        userid: "user000002",
-        passWord: "passwordpassword",
-        userType: "1"
+        userid: userId,
+        passWord: passWord,
+        userType: "0"
       })
       .then((res) => {
         //console.log(res);
@@ -103,6 +104,7 @@ export const Login: VFC = memo(() => {
         <SItemBox>
           <SInputLabel>パスワード</SInputLabel>
           <SInput
+            type="password"
             placeholder="パスワード"
             value={passWord}
             onChange={onChangePassWord}

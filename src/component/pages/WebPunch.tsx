@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { PunchButton } from "../atoms/button/PunchButton";
 import { Clock } from "../atoms/clock/Clock";
 import ImgIn from "../../icons/logo.png";
-import { useLoginUser } from "../../hooks/useLoginUser";
 
 const SBody = styled.div`
   width: 800px;
@@ -45,8 +44,6 @@ const SMemo = styled.textarea`
 `;
 
 export const WebPunch: VFC = memo(() => {
-  const { loginUser } = useLoginUser();
-
   const [memo, setMemo] = useState<string>("");
   const onChangeMemo = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setMemo(e.target.value);

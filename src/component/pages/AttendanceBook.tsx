@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { UserInfo } from "../../types/api/UserInfo";
 import { Get_Punch } from "../../types/api/Get_Punch";
+import { Get_AllUser } from "../../types/api/Get_AllUser";
 import { PunchInfo } from "../../types/api/PunchInfo";
 import { ComboValue } from "../../types/ComboValue";
 import useWeekDay from "../../hooks/useWeekDay";
@@ -45,12 +46,15 @@ const SSelectBox = styled.select`
   margin-right: 20px;
   font-size: 18px;
 `;
+
+const SButton = styled.button``;
 const lstYm: Array<ComboValue> = [
   { value: "202112", name: "2021年12月" },
   { value: "202201", name: "2022年01月" },
   { value: "202202", name: "2022年02月" }
 ];
 
+/*
 const lstUsers: Array<UserInfo> = [
   {
     Userid: "user000001",
@@ -74,8 +78,7 @@ const lstUsers: Array<UserInfo> = [
     UpdateUserId: "",
     UpdatedOn: ""
   }
-];
-
+];*/
 type workType = "" | "出勤" | "有休" | "他休";
 const Works: Array<workType> = ["", "出勤", "有休", "他休"];
 
@@ -92,11 +95,11 @@ export const AttendanceBook: VFC = memo(() => {
   const getKintai = () => {
     axios
       .get<Get_Punch>(
-        "https://kintaiwebapi.azurewebsites.net/api/punch/user000001/202201"
+        `https://kintaiwebapi.azurewebsites.net/api/punch/${selectedUser}/${ym}`
       )
       .then((res) => {
-        console.log(res.data);
-        console.log(loginUser);
+        //        console.log(res.data);
+        //        console.log(loginUser);
         setKintaiData(res.data);
       })
       .catch((err) => {
@@ -109,26 +112,33 @@ export const AttendanceBook: VFC = memo(() => {
   };
   const onChangeUser = (e: ChangeEvent<HTMLSelectElement>) => {
     setSelectedUsers(e.target.value);
+  };
+
+  const onClickDispKintai = () => {
     getKintai();
   };
 
   useEffect(() => {
-    setUsers(lstUsers);
-    console.log(loginUser);
-    /*
-    axios
-      .get<Array<UserInfo>>(
-        "https://kintaiwebapi.azurewebsites.net/api/user/area/user000002"
-      )
-      .then((res) => {
-        console.log(res.data.User);
-        alert(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("err");
-      });
-*/
+    //setUsers(lstUsers);
+    //console.log(loginUser);
+    if (loginUser?.UserType === "1") {
+      axios
+        .get<Get_AllUser>("https://kintaiwebapi.azurewebsites.net/api/user")
+        .then((res) => {
+          //console.log(res.data);
+          setUsers(res.data.AllUserInfos);
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("err");
+        });
+    } else {
+      const lstUser: Array<UserInfo> = [];
+      if (loginUser !== null) {
+        lstUser.push(loginUser);
+        setUsers(lstUser);
+      }
+    }
   }, [loginUser]);
 
   return (
@@ -154,12 +164,13 @@ export const AttendanceBook: VFC = memo(() => {
           {users.map((n, index) => {
             return (
               <option
-                value={n.Userid}
+                value={n.UserId}
                 key={index}
-              >{`${n.LastName} ${n.FirstName}`}</option>
+              >{`${n.UserId} : ${n.LastName} ${n.FirstName}`}</option>
             );
           })}
         </SSelectBox>
+        <SButton onClick={onClickDispKintai}>表示</SButton>
       </SMenuItem>
       <STable>
         <thead>
