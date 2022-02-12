@@ -2,6 +2,7 @@ import { memo, useEffect, useState, VFC } from "react";
 import styled from "styled-components";
 import { interval } from "rxjs";
 import useWeekDay from "../../../hooks/useWeekDay";
+
 const SContainer = styled.div`
   background-color: white;
 `;
