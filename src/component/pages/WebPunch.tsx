@@ -2,15 +2,15 @@ import { ChangeEvent, memo, useState, VFC } from "react";
 import styled from "styled-components";
 import { PunchButton } from "../atoms/button/PunchButton";
 import { Clock } from "../atoms/clock/Clock";
-import ImgIn from "../../icons/logo.png";
+import ImgIn from "../../images/punch.png";
 import { Loading } from "../atoms/Loading";
 
 const SBody = styled.div`
   width: 800px;
   margin: 100px auto;
-  padding: 20px;
+  padding: 10px;
   border: 1px solid #555;
-  background-color: white;
+  background-color: #f8f4e6;
 `;
 
 const SArea1 = styled.div`
