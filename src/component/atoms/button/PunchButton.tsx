@@ -38,6 +38,7 @@ type Props = {
 
 export const PunchButton: VFC<Props> = memo((props) => {
   const { children, src, onClick } = props;
+  console.log(src);
   return (
     <>
       <SButton onClick={onClick}>

@@ -4,16 +4,19 @@ import { interval } from "rxjs";
 import useWeekDay from "../../../hooks/useWeekDay";
 
 const SContainer = styled.div`
-  background-color: white;
+  background-color: #dddddd;
 `;
 const SDay = styled.div`
-  font-size: 32px;
+  font-size: 24px;
   text-align: center;
+  padding-top: 10px;
 `;
 const STime = styled.div`
   font-size: 64px;
   font-weight: bold;
   text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 export const Clock: VFC = memo(() => {

@@ -2,7 +2,7 @@ import { memo, VFC } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { useLoginUser } from "../../../hooks/useLoginUser";
-import logoimg from "../../../icons/logo.png";
+import ImgIn from "../../../images/logo.png";
 
 const SHeader = styled.div`
   display: flex;
@@ -35,10 +35,9 @@ const SA = styled.a`
     color: #ff7043;
   }
 `;
-
-const SLogoImg = styled.img`
-  width: 32px;
-  height: 32px;
+const SImg = styled.img`
+  width: 24px;
+  margin-right: 10px;
 `;
 
 export const Header: VFC = memo(() => {
@@ -58,7 +57,10 @@ export const Header: VFC = memo(() => {
   return (
     <>
       <SHeader>
-        <STitle>ジオる!勤怠</STitle>
+        <STitle>
+          <SImg src={ImgIn} alt="" />
+          ジオる!勤怠
+        </STitle>
         <SUserLabel>
           {loginUser?.LastName &&
             `ログインユーザ： ${loginUser?.LastName} ${loginUser?.FirstName}`}
