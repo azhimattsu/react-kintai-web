@@ -9,10 +9,10 @@ export class UserDriverImpl implements UserDriver {
   find(userid: string): Promise<UserModel | null> {
     axios
       .get<UserModel>(
-        `https://kintaiwebapi.azurewebsites.net/api/user/${userId}`
+        `https://kintaiwebapi.azurewebsites.net/api/user/${userid}`
       )
       .then((res) => {
-        return res;
+        return res.data;
       })
       .catch((err) => {
         console.log(err);

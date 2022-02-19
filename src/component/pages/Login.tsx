@@ -7,6 +7,13 @@ import { useLoginUser } from "../../hooks/useLoginUser";
 import { Get_User } from "../../types/api/Get_User";
 import { Loading } from "../atoms/Loading";
 
+import {
+  UserGetInteractor,
+  userGetUsecaseCommand
+} from "../../usecase/users/userGetUsecase";
+import { UserDriverImpl } from "../../domain/driver/userdriver";
+import { UserGateway } from "../../domain/repository/userrepository";
+
 const SBody = styled.div`
   width: 400px;
   margin: 200px auto;
@@ -55,7 +62,15 @@ export const Login: VFC = memo(() => {
     setPassWord(e.target.value);
   };
 
-  const getLoginUser = () => {
+  const getLoginUser = async () => {
+    const userdriver = new UserDriverImpl();
+    const userrepository = new UserGateway(userdriver);
+    const userGetUsecase = new UserGetInteractor(userrepository);
+    const command = new userGetUsecaseCommand(userId);
+    const result = await userGetUsecase.execute(command);
+    console.log(result.user.FirstName);
+  };
+  const getLoginUser2 = () => {
     axios
       .get<Get_User>(
         `https://kintaiwebapi.azurewebsites.net/api/user/${userId}`
