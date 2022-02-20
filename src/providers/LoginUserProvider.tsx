@@ -5,11 +5,11 @@ import {
   SetStateAction,
   useState
 } from "react";
-import { UserInfo } from "../types/api/UserInfo";
+import { UserEntity } from "../usecase/users/userEntity";
 
 export type LoginUserContextType = {
-  loginUser: UserInfo | null;
-  setLoginUser: Dispatch<SetStateAction<UserInfo | null>>;
+  loginUser: UserEntity | null;
+  setLoginUser: Dispatch<SetStateAction<UserEntity | null>>;
 };
 
 export const LoginUserContext = createContext<LoginUserContextType>({
@@ -19,7 +19,7 @@ export const LoginUserContext = createContext<LoginUserContextType>({
 
 export const LoginUserProvider = (Props: { children: ReactNode }) => {
   const { children } = Props;
-  const [loginUser, setLoginUser] = useState<UserInfo | null>(null);
+  const [loginUser, setLoginUser] = useState<UserEntity | null>(null);
 
   return (
     <LoginUserContext.Provider value={{ loginUser, setLoginUser }}>
