@@ -2,13 +2,11 @@ import { ChangeEvent, memo, useState, VFC } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
+
 import { PrimaryButton } from "../atoms/button/PrimaryButton";
 import { useLoginUser } from "../../hooks/useLoginUser";
 import { Loading } from "../atoms/Loading";
-
-import { UserGetInteractor } from "../../usecase/users/userGetUsecase";
-import { UserDriverImpl } from "../../domain/driver/userdriver";
-import { UserGateway } from "../../domain/repository/userrepository";
+import { useUserGetUseCase } from "../../hooks/useUserGetUsecase";
 
 const SBody = styled.div`
   width: 400px;
@@ -50,6 +48,8 @@ export const Login: VFC = memo(() => {
   const [passWord, setPassWord] = useState<string>("passwordpassword");
   const [isLoading, setIsLoading] = useState(false);
 
+  const { userGet } = useUserGetUseCase();
+
   const onChangeUserId = (e: ChangeEvent<HTMLInputElement>) => {
     setUserid(e.target.value);
   };
@@ -59,10 +59,7 @@ export const Login: VFC = memo(() => {
   };
 
   const getLoginUser = async () => {
-    const userdriver = new UserDriverImpl();
-    const userrepository = new UserGateway(userdriver);
-    const userGetUsecase = new UserGetInteractor(userrepository);
-    const result = await userGetUsecase.execute({ userid: userId });
+    const result = await userGet({ userid: userId });
     setLoginUser(result.user);
   };
 
