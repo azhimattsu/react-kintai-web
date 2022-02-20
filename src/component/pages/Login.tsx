@@ -4,13 +4,9 @@ import styled from "styled-components";
 import axios from "axios";
 import { PrimaryButton } from "../atoms/button/PrimaryButton";
 import { useLoginUser } from "../../hooks/useLoginUser";
-import { Get_User } from "../../types/api/Get_User";
 import { Loading } from "../atoms/Loading";
 
-import {
-  UserGetInteractor,
-  userGetUsecaseCommand
-} from "../../usecase/users/userGetUsecase";
+import { UserGetInteractor } from "../../usecase/users/userGetUsecase";
 import { UserDriverImpl } from "../../domain/driver/userdriver";
 import { UserGateway } from "../../domain/repository/userrepository";
 
@@ -66,23 +62,8 @@ export const Login: VFC = memo(() => {
     const userdriver = new UserDriverImpl();
     const userrepository = new UserGateway(userdriver);
     const userGetUsecase = new UserGetInteractor(userrepository);
-    const command = new userGetUsecaseCommand(userId);
-    const result = await userGetUsecase.execute(command);
-    console.log(result.user.FirstName);
-  };
-  const getLoginUser2 = () => {
-    axios
-      .get<Get_User>(
-        `https://kintaiwebapi.azurewebsites.net/api/user/${userId}`
-      )
-      .then((res) => {
-        const { UserInfo } = res.data;
-        setLoginUser(UserInfo);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("err");
-      });
+    const result = await userGetUsecase.execute({ userid: userId });
+    setLoginUser(result.user);
   };
 
   const onClickLogin = () => {

@@ -28,6 +28,8 @@ export class UserGateway implements UserReporitory {
   }
   public async get(userid: string): Promise<User> {
     const res = await this.store.find(userid);
+    console.log("repo");
+    console.log(res);
     const user = new User(
       res.UserInfo.UserId,
       res.UserInfo.PassWord,

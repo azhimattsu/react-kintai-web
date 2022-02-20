@@ -16,7 +16,7 @@ export class UserEntity {
     this.UserType = usertype;
   }
 
-  get fullName(): string {
+  public get fullName(): string {
     return `${this.LastName} ${this.FirstName}`;
   }
 }
